@@ -1,5 +1,46 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<h1>Here will come the homepage</h1>
+<!-- <h1>Here will come the homepage</h1> -->
+
+{% if worker == 0 %}
+<!-- Contractor -->
+<h1>Homepage of Contractor</h1>
+{% elif worker == 1 %}
+<!-- Worker -->
+<h1>Homepage of Worker</h1>
+<a style="text-align: center;"><h1>NOTIFICATION PANEL</h1></a>
+<div action="messages">
+    <div class="container" id="mid">
+        <div class="white">
+        <div class="w3-panel w3-round-large w3-pale-blue w3-animate-opacity">
+          <h1>{{ loop }} number of job(s) are available near you:</h1>
+        </div>
+        <br>
+        
+        <table class="table">
+        <thead>
+          <tr>
+            <th>S.no</th>
+            <th>Contractor Name</th>
+            <th>JOB</th>
+            <th>Phone Number of Contractor</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for i in range(loop) %}
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ c_id[i] }}</td>
+            <td>{{noti[i]}}</td>
+            <td>{{phn_no[i]}}</td>
+          </tr>
+        {% endfor %}  
+        </tbody>
+      </table>
+        
+    </div>    
+{% else %}
+<h1>GENERAL HOMEPAGE</h1>
+{% endif %}
 {% endblock %}

@@ -27,26 +27,26 @@ conn = engine.connect()
 
 # Make Tables:
 meta = MetaData()
-w_users = Table(
-    'w_users', meta,
-    Column('w_id', Integer, primary_key = True),
-    Column('w_username', Text),
-    Column('w_address', Text),
-    Column('w_age', Integer),
-    Column('w_work', Text),
-    Column('w_phone', Text),
-    Column('w_hash', Text),
+users = Table(
+    'users', meta,
+    Column('id', Integer, primary_key = True),
+    Column('username', Text),
+    Column('hash', Text),
+    Column('agency', Text),
+    Column('location', Text),
+    Column('work', Text),
+    Column('phn_no', Text),
+    Column('email', Text),
+    Column('age', Integer),
+    Column('worker', Integer),
 )
 
-c_users = Table(
-    'c_users', meta,
-    Column('c_id', Integer, primary_key = True),
-    Column('c_username', Text),
-    Column('c_agency', Text),
-    Column('c_work_req', Text),
-    Column('c_location', Text),
-    Column('c_hash', Text),
+notification = Table(
+    'notification', meta,
+    Column('c_id', Integer),
+    Column('message', Text),
 )
+
 
 meta.create_all(engine)
 
@@ -58,11 +58,88 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
+check = 0   #If worker then check = 1, elif if contractor check = 2
+
+
 # HOME PAGE ----------------------------------------
 @app.route("/")
 def home():
-    return render_template('index.html')
+
+    '''
+    s2 = users.select().where(users.c.id == session['user_id'])
+    result = conn.execute(s2)
+    worker = 2
+    for i in result:
+        worker = i[9]
+    
+    if worker == 0:
+        return render_template('index.html', worker = 0)
+    elif worker == 1:
+        return render_template('index.html', worker = 1)
+    else:
+        return render_template('index.html', worker = 2)
+    
+'''
+    try:
+        s5 = users.select().where(users.c.id == session['user_id'])
+        res5 = conn.execute(s5)
+        for i in res5:
+            location = i[4]
+            worker = i[9]
+            # location = res5[0][4]
+            # worker = res5[0][9]
+            s4 = users.select()
+            res4 = conn.execute(s4)
+            works = []
+            c_id = []
+            phn_no = []
+            for i in res4:
+                if i[4].lower() == location.lower() and i[9] == 0:
+                    if i[0] != session['user_id']:
+                        c_id.append(i[1])
+                        works.append(i[5])
+                        phn_no.append(i[6])
+            works.reverse()
+            c_id.reverse()
+            phn_no.reverse()
+            loop = len(c_id)
+            return render_template("index.html",loop = loop, worker = worker, c_id = c_id, noti = works, phn_no = phn_no)
+    except:
+        return render_template("index.html", worker = 2)
 #---------------------------------------------------
+
+'''
+@app.route("/trick", methods=["POST", "GET"])
+@login_required
+def trick():
+    try:
+        s5 = users.select().where(users.c.id == session['user_id'])
+        res5 = conn.execute(s5)
+        for i in res5:
+            location = i[4]
+            worker = i[9]
+            # location = res5[0][4]
+            # worker = res5[0][9]
+            s4 = users.select()
+            res4 = conn.execute(s4)
+            works = []
+            c_id = []
+            phn_no = []
+            for i in res4:
+                if i[4].lower() == location.lower() and i[9] == 0:
+                    if i[0] != session['user_id']:
+                        c_id.append(i[1])
+                        works.append(i[5])
+                        phn_no.append(i[6])
+            works.reverse()
+            c_id.reverse()
+            phn_no.reverse()
+            loop = len(c_id)
+            return render_template("index.html",loop = loop, worker = worker, c_id = c_id, noti = works, phn_no = phn_no)
+    except:
+        return render_template("index.html", worker = 2)
+'''
 
 # LOGIN and REGISTER ----------------------------------------------
 @app.route("/register_c", methods=["GET", "POST"])
@@ -76,11 +153,13 @@ def register_c():
     username = request.form.get('username')
     agency = request.form.get('agency')
     work_req = request.form.get('work')
+    email = request.form.get('email')
+    phn_no = request.form.get('phn_no')
     location = request.form.get('location')
     password = request.form.get('password')
     confirmation = request.form.get('confirmation')
 
-    user = text('SELECT c_username, c_id FROM c_users')
+    user = text('SELECT username, id FROM users GROUP BY id')
     result = conn.execute(user)
     u_l = []
     id = 0
@@ -92,13 +171,17 @@ def register_c():
     u_l = []
     if password == '' or password != confirmation:
         return apology('Password input is blank or the passwords do not match.')
+    
+    n_msg = 'Job is available for the work : ' + work_req
+    ins_n = notification.insert().values(c_id = id + 1, message = n_msg)
+    conn.execute(ins_n)
 
-    ins = c_users.insert().values(c_username = username, c_hash = generate_password_hash(password), c_agency = agency, c_location = location, c_work_req = work_req)
+    ins = users.insert().values(username = username, hash = generate_password_hash(password), agency = agency, location = location, work = work_req, phn_no = phn_no, email = email, worker = 0)
     conn.execute(ins)
 
     session['user_id'] = id
 
-    return render_template("index.html")
+    return render_template("index.html", worker = 0)
 
 
 @app.route("/register_w", methods=["GET", "POST"])
@@ -119,7 +202,7 @@ def register_w():
 
     confirmation = request.form.get('confirmation')
 
-    user = text('SELECT w_username, w_id FROM w_users')
+    user = text('SELECT username, id FROM users')
     result = conn.execute(user)
     u_l = []
     id = 0
@@ -131,13 +214,39 @@ def register_w():
     u_l = []
     if password == '' or password != confirmation:
         return apology('Password input is blank or the passwords do not match.')
-
-    ins = w_users.insert().values(w_username = username, w_hash = generate_password_hash(password), w_address = address, w_age = age, w_work = preffered_work, w_phone = phone_no)
+    
+    ins = users.insert().values(username = username, hash = generate_password_hash(password), location = address, age = age, work = preffered_work, phn_no = phone_no, worker = 1)
     conn.execute(ins)
 
     session['user_id'] = id
 
-    return render_template("index.html")
+    # return render_template("/trick")
+    try:
+        s5 = users.select().where(users.c.id == session['user_id'])
+        res5 = conn.execute(s5)
+        for i in res5:
+            location = i[4]
+            worker = i[9]
+            # location = res5[0][4]
+            # worker = res5[0][9]
+            s4 = users.select()
+            res4 = conn.execute(s4)
+            works = []
+            c_id = []
+            phn_no = []
+            for i in res4:
+                if i[4].lower() == location.lower() and i[9] == 0:
+                    if i[0] != session['user_id']:
+                        c_id.append(i[1])
+                        works.append(i[5])
+                        phn_no.append(i[6])
+            works.reverse()
+            c_id.reverse()
+            phn_no.reverse()
+            loop = len(c_id)
+            return render_template("index.html",loop = loop, worker = worker, c_id = c_id, noti = works, phn_no = phn_no)
+    except:
+        return render_template("index.html", worker = 2)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -145,7 +254,8 @@ def login():
     session.clear()
 
     if request.method == "POST":
-        if not request.form.get("username"):
+        username = request.form.get("username")
+        if not username:
             return apology("must provide username", 403)
 
         # Ensure password was submitted
@@ -154,13 +264,39 @@ def login():
         
         # Query database for username
         #Can make better
+
+
         user = text('SELECT username, hash, id FROM users')
         result = conn.execute(user)
         for row in result:
             if row[0] == request.form.get("username"):
                 if check_password_hash(row[1], request.form.get("password")):
                     session['user_id'] = row[2]
-                    return render_template("index.html")
+
+                    s5 = users.select().where(users.c.id == row[2])
+                    res5 = conn.execute(s5)
+                    for i in res5:
+                        location = i[4]
+                        worker = i[9]
+                    # location = res5[0][4]
+                    # worker = res5[0][9]
+
+                    s4 = users.select()
+                    res4 = conn.execute(s4)
+                    works = []
+                    c_id = []
+                    phn_no = []
+                    for i in res4:
+                        if i[4].lower() == location.lower() and i[9] == 0:
+                            if i[0] != row[2]:
+                                c_id.append(i[1])
+                                works.append(i[5])
+                                phn_no.append(i[6])
+                    works.reverse()
+                    c_id.reverse()
+                    phn_no.reverse()
+                    loop = len(c_id)
+                    return render_template("index.html",loop = loop, worker = worker, c_id = c_id, noti = works, phn_no = phn_no)
         
         return apology('Sorry We cannot find you right now')
     
