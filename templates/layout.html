@@ -1,83 +1,56 @@
 <!DOCTYPE html>
- <html lang="en">
-    <head>
-        <title>ORKER</title>
-        <!-- Get Bootstrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <!-- Get google fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
-        
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;800;900&display=swap" rel="stylesheet">
-        <!-- Get W3schools css -->
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-2019.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <!-- Specifing the character encoding -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, width=device-width">
-        <!-- Icon -->
-        <link rel="icon" type="image/x-icon" href="/static/nits.png">
-        <link rel="stylesheet" href="/static/styles.css">
-        <script
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
       src="https://kit.fontawesome.com/db21924de1.js"
       crossorigin="anonymous"
-      ></script>
-    </head>
+    ></script>
+    <link rel="stylesheet" href="/static/styles/landing-style.css">
+    
+    <title>Orker</title>
 
-    <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top ">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>                        
-                </button>
-                <a class="navbar-brand" href="/">ORKER</a>
-              </div>
-              <div class="collapse navbar-collapse" id="myNavbar">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="/static/images/main-logo-removebg-preview.png" alt="">
+            <h1>ORKER</h1>
+        </div>
+        <div class="nav-middle">
+            <a href="" style="text-decoration: none;">Home</a>
+            <a href="#section-3" style="text-decoration: none;">About</a>
+            <a href="" style="text-decoration: none;">Contact</a>
+            <a href="" style="text-decoration: none;">Feedback</a>
+        </div>
+        <div class="nav-right" style="width: 25rem;">
+            <input type="text" name="" id="search">
+            <i class="fa-solid fa-magnifying-glass fa-xl"></i>
+            {% if session['user_id'] %}
+            <a href="/logout" style="text-decoration: none;"><button style="color: white;background-color: blue;border: none;border-radius: 5px;height: 1.8rem;">Log Out</button></a>
+            {% else %}
+            <a href="/login" style="text-decoration: none;"><button style="color: white;background-color: blue;border: none;border-radius: 5px;height: 1.8rem;">Log In</button></a>
+            {% endif %}
+        </div>
+    </nav>
+    {% block main %}{% endblock %}
 
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                {% if session["user_id"] %}
-                <li><a href="/logout"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
-                {% else %}
-                <li><a href="/login"><span class="glyphicon glyphicon-user"></span> Log In</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">REGISTER<span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <!-- <input autofocus class="form-control" id="myInput" type="text" placeholder="Search.."> -->
-                    <li><a href="/register_c">Register as a Contractor</a></li>
-                    <li><a href="/register_w">Register as a Worker</a></li>
-                  </ul>
-                <script>
-                  $(document).ready(function(){
-                    $("#myInput").on("keyup", function() {
-                      var value = $(this).val().toLowerCase();
-                      $(".dropdown-menu li").filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                      });
-                    });
-                  });
-                  </script>
-          </li>
-                {% endif %}
-              </ul>
-            </div>
-            </div>
-          </nav>
-        <br>
-        <br>
-        {% block main %}{% endblock %}
-    </body>
- </html>
+    <!-- FOOTER -->
+    {% if worker != 1 %}
+    <footer>
+        <div class="fd1">
+          Copyright@2023 All rights reserved | This template is made by Web Maniacs
+        </div>
+        
+      </footer>
+      <style>
+        .nav-right{
+            width: 12rem;
+        }
+      </style>
+      {% endif %}
+</body>
+</html>

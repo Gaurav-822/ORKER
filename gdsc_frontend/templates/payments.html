@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/gdsc_frontend/static/styles/payment.css">
+    <script
+      src="https://kit.fontawesome.com/db21924de1.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Document</title>
+</head>
+<body>
+    <section class="section">
+        <div class="div-1">
+            <p>Select Payment Method</p>
+            <div class="method">
+                <div class="box">
+                    <div class="icon"><i class="fa-regular fa-credit-card fa-2xl"></i></div>
+                    <p>Credit card</p>
+                </div>
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-building-columns fa-2xl"></i></div>
+                    <p>Net Banking</p>
+                </div>
+                <div class="box">
+                    <div class="icon"><i class="fa-brands fa-paypal fa-2xl"></i></div>
+                    <p>Paypal</p>
+                </div>
+                <div class="box">
+                    <div class="icon"><i class="fa-solid fa-credit-card fa-2xl"></i></div>
+                    <p>Debit Card</p>
+                </div>
+                
+            </div>
+        </div>
+        <div class="div-2">
+            <p  id="primary-para">Personal Information</p>
+            <div class="email">
+                <p  id="secondary-para">EMAIL ADDRESS</p>
+                <input type="email" name="" id="email"> 
+            </div>
+            <div class="name">
+                <p id="secondary-para">FIRST NAME</p>
+                <input type="text" name="" id="name"> 
+            </div>
+            <p id="primary-para">Credit Card Info</p>
+            <div class="name">
+                <p id="secondary-para">NAME ON CARD</p>
+                <input type="text" name="" id="name"> 
+            </div>
+            <div class="name">
+                <p id="secondary-para">CARD NUMBER</p>
+                <input type="text" name="" id="card-number" placeholder="0000-0000-0000-0000"> 
+            </div>
+            <div class="extra">
+                <div class="expiry">
+                    <p id="secondary-para">EXPIRY</p>
+                    <div class="parent-box">
+                    <div class="box1">
+                        <input type="text" id="expiry" placeholder="DD/YYYY">
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="cvv">
+                    <p id="secondary-para">CVV</p>
+                    <input type="number" name="" id="cvv">
+                </div>
+            </div>
+
+            <div class="div-3">
+                <button type="submit" id="btn">SUBMIT</button>
+            </div>
+            <div class="terms">
+                <input type="checkbox" name="" id="">
+                <p>By checking this box, I agree to the Terms and Conditions & Privacy Policy</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

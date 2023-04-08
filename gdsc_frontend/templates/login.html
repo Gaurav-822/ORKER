@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F7F7;
+        }
+
+        form {
+            width: 400px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #BBBBBB;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0px 0px 5px #BBBBBB;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type=submit]:hover {
+            background-color: #3E8E41;
+        }
+
+
+        .button {
+            margin-left: 45%;
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0px 0px 5px #BBBBBB;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #3E8E41;
+        }
+    </style>
+</head>
+
+<body>
+    <br><br><br><br><br><br>
+    <div id="results"></div>
+    <br><br><br><br><br><br>
+    <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+    </form>
+    <br><br>
+    <button class="button" id="submit">Login</button>
+    <script type="text/javascript">
+        const sleep = ms => new Promise(req => setTimeout(req, ms));
+        document.getElementById("submit").addEventListener("click", async () => {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            console.log("username: ", username, "password: ", password);
+            if (username == "1" && password == "1") {
+                //worker
+                document.getElementById("results").innerHTML = "<h3>Logging in as worker...</h3>";
+                await sleep(500);
+                location.assign("./worker-page.html");
+            }
+            else if (username == "2" && password == "2") {
+                //contractor
+                document.getElementById("results").innerHTML = "<h3>Logging in as contractor...</h3>";
+                await sleep(500);
+                location.assign("./contractor-page.html");
+            }
+            else if (username == "3" && password == "3") {
+                //operator
+                document.getElementById("results").innerHTML = "<h3>Loggin in as operator...</h3>";
+                await sleep(500);
+                location.assign("./operator.html");
+            }
+            else {
+                document.getElementById("results").innerHTML = "<h3>Username and password does not match</h3>";
+            }
+        })
+    </script>
+
+</body>
+
+</html>

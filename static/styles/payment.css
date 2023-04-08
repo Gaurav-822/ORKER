@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Barlow+Condensed:wght@600&family=Barlow+Semi+Condensed:wght@500;600&family=Mukta&family=Oswald&family=Outfit:wght@400;700&family=Patrick+Hand&family=Playfair+Display&family=Potta+One&family=Roboto&family=Roboto+Condensed&family=Secular+One&family=Space+Mono:wght@700&family=Tilt+Neon&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: url('/static/images/back.jpg') no-repeat ;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+}
+.div-1{
+    display: flex;
+    /* border: 2px solid red; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 48rem;
+    height: 10rem;
+    row-gap: 1.5rem;
+    background-color: white;
+    border-radius: 10px;
+    
+}
+.method{
+    display: flex;
+    column-gap: 4rem;
+    /* border: 2px solid red; */
+    width: 90%;
+}
+.box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+    height: 5rem;
+    width: 8.1rem;
+    border-radius: 3px;
+}
+.icon{
+     display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+     /* border: 2px solid red; */
+}
+ .div-2{
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid red; */
+    width: 46rem;
+    height: 37rem;
+    row-gap: 1.6rem;
+    padding-left: 2rem;
+    background-color: white;
+    border-radius: 10px;
+ }
+ #primary-para{
+    text-align: center;   
+    font-size: 1.3rem; 
+    margin-top: 0.4rem; 
+
+ }
+.email,.name{
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.3rem;
+    width: 80%;
+    
+}
+#email,#name,#card-number{
+    height: 1.8rem;
+    border-radius: 6px;
+    border: 2px solid rgba(0, 0, 0, 0.293);
+}
+.extra{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+.expiry{
+    display: flex;
+    flex-direction: column;
+}
+.parent-box{
+    display: flex;
+    column-gap: 0.2rem;
+    
+    
+}
+#expiry{
+    width: 7rem;
+    height: 1.7rem;
+    border-radius: 6px;
+    border: 2px solid rgba(0, 0, 0, 0.293);
+}
+.terms{
+    display: flex;
+    column-gap: 0.3rem;
+}
+#cvv{
+    height: 1.7rem;
+    border-radius: 6px;
+    border: 2px solid rgba(0, 0, 0, 0.293);
+}
+#btn{
+    width: 7rem;
+    height: 2rem;
+    background-color: blue;
+    border-radius: 7px;
+    border: none;
+    color: white;
+}
